@@ -15,6 +15,13 @@
       <td>Email</td>
       <td>Message</td>
     </tr>
+    <% messages.forEach(function(msg){ %>
+      <tr>
+        <td><%=msg.name%></td>
+        <td><%=msg.email%></td>
+        <td><%=msg.message%></td>
+      </tr>
+      <% }); %>
   </table>
 
 </body>

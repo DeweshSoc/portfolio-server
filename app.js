@@ -41,12 +41,6 @@ const homeRoutes = require("./routes/home");
 //     store: store,
 //   })
 // );
-app.use((req, res, next) => {
-  res.append("Access-Control-Allow-Origin", ["*"]);
-  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.append("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
 app.use(flash());
 app.use(multer().none());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -75,8 +69,4 @@ mongoose
     });
   })
   .catch((err) => console.log(err));
-
-// app.listen(port,req=>{
-//   console.log("Server up at "+port);
-// })
 

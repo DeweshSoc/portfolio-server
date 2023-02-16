@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PlacMan | A placement Management system</title>
+
+  <!-- Normalize browser inconsistencies -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <script defer src="/js/fontawesome-all.min.js"></script>
+  <!-- MD Bootstrap -->
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="/css/mdb.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <script src="/js/student/sidebar.js" defer></script>
+  <style>
+    /* Scrollbar styling */
+
+    body::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: rgba(29, 17, 17, 0.788);
+    }
+
+    body::-webkit-scrollbar-track {
+      background-color: rgb(230, 223, 223);
+      border-radius: 10px;
+    }
+
+    /* Profile Modal */
+
+    .card.profile-card {
+      width: 100%;
+      margin: 0;
+    }
+
+    #profileModal .modal-content,
+    #profileModal .modal-content .modal-body,
+    #profileModal .modal-content .modal-body .card.profile-card {
+      border-radius: 10px;
+    }
+
+    #profileModal .modal-content .modal-body .card.profile-card img {
+      border-radius: 10px 10px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Wrapper stretches to the whole viewport height -->
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <%-include('includes/sidebar');%>
+
+    <!-- Main -->
+    <main>
+      <!-- Topbar -->
+      <%-include('includes/topbar');%> 
+      <!--  -->
+
+       <template id="company-template">
+        <article class="card card-cascade narrower w-75">
+          <!-- Card heading -->
+          <section class="secondary-gradient py-3 mb-4 d-flex justify-content-center align-items-center">
+            <span class="text-dark mx-3" id="companyName"> </span>
+          </section>
+
+          <!-- Card content -->
+          <section class="px-4">
+            <!-- Table -->
+            <section class="table-wrapper">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th class="th-md">Description</th>
+                    <th class="th-md">Company Info</th>
+                    
+                  </tr>
+                </thead>
+
+                <tbody id="companyDataRows">
+                 
+                  
+                </tbody>
+                
+              </table>
+            </section>
+
+            <hr class="my-0">
+
+         
+          </section>
+        </article></template>  
+
+
+      <template id="record-template">
+        <article class="card card-cascade narrower">
+          <!-- Card heading -->
+          <section class="secondary-gradient py-3 mb-4 d-flex justify-content-center align-items-center">
+            <span class="text-dark mx-3" id="recordYear">Placement Details - </span>
+          </section>
+
+          <!-- Card content -->
+          <section class="px-4">
+            <!-- Table -->
+            <section class="table-wrapper">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th class="th-md">University Roll No.</th>
+                    <th class="th-md">Student Name</th>
+                    <th class="th-md">Placed at</th>
+                  </tr>
+                </thead>
+
+                <tbody id="recordRows">
+                 
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  
+                </tbody>
+                
+              </table>
+            </section>
+
+            <hr class="my-0">
+
+         
+          </section>
+        </article></template>
+
+        <template id="report-template">
+          
+        <article class="card card-cascade narrower w-75">
+          <!-- Card heading -->
+          <section class="secondary-gradient py-3 mb-4 d-flex justify-content-center align-items-center">
+            <span class="text-dark mx-3">Company wise list</span>
+          </section>
+
+          <!-- Card content -->
+          <section class="px-4">
+            <!-- Table -->
+            <section class="table-wrapper">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th class="th-md">Company</th>
+                    <th class="th-md">Category</th>
+                    <th class="th-md">Description</th>
+                    <th class="th-md">Status</th>
+                    <th class="th-md">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody id="reportCompanyRows">
+                  
+                  
+                </tbody>
+                
+              </table>
+            </section>
+
+            <hr class="my-0">
+         
+          </section>
+        </article>
+        </template>
+
+
+      <template id="edit-form-template">
+          <p class="subtitle"> Change the details for updation.</p>
+            <form id="edit-form" action="/student/signup" method="POST" enctype="multipart/form-data">
+
+              <input class="form-control mb-2"  type="text" id="studentName" name="studentName" placeholder="Name" required>
+              <input class="form-control mb-2" type="email" id="studentEmail" name="studentEmail" placeholder="Your email" required>
+              <input class="form-control mb-2" type="tel" id="studentPhone" name="studentPhone" placeholder="your number" required>
+              <input class="form-control mb-2" type="date" id="studentDob" name="studentDob" placeholder="Your date of birth" required>
+              <input class="form-control mb-2" type="text" id="studentAddress" name="studentAddress" placeholder="Your permanent address" required>
+              <select class="form-control mb-2 form-select" name="studentBranch" id="studentBranch">
+                <option value="Electrical Eng">Electrical Eng</option>
+                <option value="Electronics and Communication Eng">Electronics and Communication Eng</option>
+                <option value="Computer Science Eng"> Computer Science Eng</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Civil Eng">Civil Eng</option>
+                <option value="Mechanical Eng">Mechanical Eng</option>
+              </select>
+              <input class="form-control mb-2" type="text" id="studentMetric" name="studentMetric" placeholder="Your 10th percentage">
+              <input class="form-control mb-2" type="text" id="studentHsc" name="studentHsc" placeholder="Your 12th percentage">
+              <input class="form-control mb-2" type="text" id="studentCgpa" name="studentCgpa" placeholder="Your overall cgpa till date" required>
+              <input class="form-control mb-2" type="text" id="studentCgpaSem1" name="studentCgpaSem1" placeholder="1st sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem2" name="studentCgpaSem2" placeholder="2nd sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem3" name="studentCgpaSem3" placeholder="3rd sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem4" name="studentCgpaSem4" placeholder="4th sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem5" name="studentCgpaSem5" placeholder="5th sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem6" name="studentCgpaSem6" placeholder="6th sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem7" name="studentCgpaSem7" placeholder="7th sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentCgpaSem8" name="studentCgpaSem8" placeholder="8th sem cgpa">
+              <input class="form-control mb-2" type="text" id="studentPassoutYr" name="studentPassoutYr" placeholder="Your passout year" required>
+              <input class="form-control mb-2" type="text" id="studentParent1" name="studentParent1" placeholder="Your first parent's full name" required>
+              <input class="form-control mb-2" type="text" id="studentParentOcp1" name="studentParentOcp1" placeholder="Your first parent's occupation" required>
+              <input class="form-control mb-2" type="text" id="studentParent2" name="studentParent2" placeholder="Your second parent's full name">
+              <input class="form-control mb-2" type="text" id="studentParentOcp2" name="studentParentOcp2" placeholder="Your second parent's occupation">
+              <input class="btn btn-secondary btn-lg mx-auto my-4" type="submit" value="Submit">
+          </form>
+      </template>  
+
+      <template id="skill-del-template">
+
+        <form id="skill-del-form">
+          <div>
+
+          </div>  
+          <input class="btn btn-danger" type="submit" value="Delete checked skills">
+        </form>
+
+      </template>
+
+      <input type="hidden" id="student-roll" value="<%=student.roll%>">
+
+      <!-- Content -->
+      <div class="content"  id="content">
+        <!-- First card -->
+
+
+        
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <%if(student.gender=="Male"){%>
+                <img class="img-fluid rounded-start" src="/img/student-male.png" alt="student">
+                <% }else{ %>
+                  <img class="img-fluid rounded-start" src="/img/student-female.png" alt="student">
+              <% } %>  
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%=student.name%></h5>
+                <p class="card-text">
+                  <%=student.branch%>-<%=student.passoutYr%>
+                  <br>
+                  <%= student.roll%> 
+                  <br>
+                  DOB : <%=dob%>
+                  <br>
+                  Overall CGPA : <%= student.cgpa %>  
+                  <br>
+                  Status : <%if(student.placed){%> Placed<% }else{ %> Unplaced<% } %>  
+                  <br>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <small class="text-muted">Student under <%=student.branch%> department</small>
+        <article class="card card-cascade wider reverse my-4">
+          
+          <!-- <section class="card-header">
+            <img src="/img/student-img.jpg" class="rounded-circle" alt="Profile picture">
+            <h4 class="card-title m-2">Welcome <%=student.name%> ! 
+            
+
+            </h4>
+          </section> -->
+          <!-- <section class="view overlay">
+            <img src="/img/card-img/art-of-living.jpg" alt="Trees" class="img-fluid">
+            <a href="#">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </section> -->
+          <section class="card-body text-center">
+            <h4 class="card-title">Student Information</h4>
+            <p class="card-text">
+              Upload your Resume and fill in the
+              <a href="#"><span class="text-secondary">next steps.</span></a>
+            </p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sem</th>
+                  <th scope="col">CGPA</th>
+                  <th scope="col">Sem</th>
+                  <th scope="col">CGPA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let i=0;i<student.semCgpa.length;i=i+2){ %>
+                  <tr>
+                    <td scope="row"><strong><%=i+1%></strong></td>
+                    <td><%=student.semCgpa[i]%></td>
+                    <td><strong><%=i+2%></strong></td>
+                    <td><%=student.semCgpa[i+1]%></td>
+                  </tr>
+                <% } %>  
+              </tbody>
+            </table>
+          </section>
+
+          <section class="card-body text-center">
+            <p class="card-text alert alert-primary">
+              First parent name : <%=student.homeInfo.parentName1%> <br>
+              First parent occupation : <%=student.homeInfo.occupation1%> <br>
+              Second parent name : <%=student.homeInfo.parentName2%> <br>
+              Second parent occupation : <%=student.homeInfo.occupation2%> <br>
+              Address: <%= student.address %> <br>
+              Metric percentage : <%=student.metricMarks%> <br>
+              HSC percentage : <%=student.hscMarks%> <br>
+              Email : <%=student.email%> <br>
+              Phone No : <%=student.phone%>
+            </p>
+            <h4 class="card-title mt-4">Skills</h4>
+            <p class="card-text"> Your listed skills</p> 
+            <% for(let i=0;i<student.skills.length;i++){ %>
+              <button type="button" class="btn btn-sm btn-outline-dark btn-rounded m-1" data-mdb-ripple-color="dark"><%=student.skills[i]%></button>
+            <% } %>  
+            <!-- <a href="#" class="d-block"><button class="btn btn-outline-primary darken-4 mt-4"></button></a> -->
+          </section>
+          
+          
+          
+        </article>
+
+        <!-- Second card -->
+        <h3 class="m-4">Notices</h3>
+
+        <%for(let i=0;i<notices.length;i++){%>
+          <article class="card">
+            <section class="card-body">
+              <h6 class="text-success accent-3">
+                <i class="far fa-bell"></i>
+                <%=notices[i].date%>
+              </h6>
+              <br>
+              
+              <p class="card-text">
+                <%=notices[i].body%>
+              </p>
+            </section>
+            <section class="card-footer text-right">
+              <a href="mailto:<%=notices[i].author.email%>"><button class="btn btn-success accent-3" data-toggle="modal" data-target="#profileModal">Contact : <%=notices[i].author.name%></button></a>
+            </section>
+          </article> 
+        <% } %> 
+        
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap dependencies -->
+  <!-- First jQuery, then Popper.js and lastly Bootstrap JS -->
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="/js/mdb.min.js"></script>
+  <!-- Custom script -->
+  <script src="/js/scripts.js"></script>
+</body>
+
+</html>

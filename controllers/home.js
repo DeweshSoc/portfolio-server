@@ -1,9 +1,12 @@
-const fs = require("fs");
-
 const Message = require("../models/message")
 
 exports.getHome = (req,res)=>{
-  res.render("home");
+  Message.find().then(messages=>{
+    console.log(messages);
+    res.render("home",{
+      messages:messages
+    });
+  })
 }
 
 exports.postMsg = (req,res)=>{
@@ -18,14 +21,14 @@ exports.postMsg = (req,res)=>{
     message:msg
   });
 
-  newMsg.save().then(()=>{
+  newMsg.save().then(msg=>{
     console.log("message successfully added!");
     const toSend={
       message:"success"
     };
-    console.log(JSON.stringify(toSend));
-    res.status(200);
-    res.set('content-type','application/json');
+    // console.log(JSON.stringify(toSend));
+    // res.status(200);
+    // res.set('content-type','application/json');
     res.send(JSON.stringify(toSend));
   })
   .catch(err=>{
@@ -36,8 +39,4 @@ exports.postMsg = (req,res)=>{
     res.status(500);
     res.send(JSON.stringify(toSend));
   })
-
-
-
-
 }
