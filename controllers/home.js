@@ -26,9 +26,6 @@ exports.postMsg = (req,res)=>{
     const toSend={
       message:"success"
     };
-    // console.log(JSON.stringify(toSend));
-    // res.status(200);
-    // res.set('content-type','application/json');
     res.send(JSON.stringify(toSend));
   })
   .catch(err=>{

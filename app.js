@@ -6,6 +6,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const multer = require("multer");
+const cors = require("cors");
 // const session = require("express-session");
 // const MongoDbStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
@@ -26,6 +27,7 @@ app.set("views", "views");
 // });
 
 //routers
+
 const homeRoutes = require("./routes/home");
 
 //models
@@ -41,6 +43,7 @@ const homeRoutes = require("./routes/home");
 //     store: store,
 //   })
 // );
+app.use(cors());
 app.use(flash());
 app.use(multer().none());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
