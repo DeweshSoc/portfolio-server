@@ -52,10 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/",homeRoutes);
 
 
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 5000;
-}
+const port = process.env.PORT||3000;
 const MONGODB_URI = process.env.MONGODB_URI||process.env.MONGODB_URI_LOCAL;
 mongoose
   .connect(MONGODB_URI, {
