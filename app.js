@@ -41,6 +41,12 @@ const homeRoutes = require("./routes/home");
 //     store: store,
 //   })
 // );
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", ["*"]);
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 app.use(flash());
 app.use(multer().none());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -52,7 +58,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/",homeRoutes);
 
 
-const port = process.env.PORT||3000;
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 5000;
+}
 const MONGODB_URI = process.env.MONGODB_URI||process.env.MONGODB_URI_LOCAL;
 mongoose
   .connect(MONGODB_URI, {
